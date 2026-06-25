@@ -1,0 +1,913 @@
+<section
+    id="quiz-section"
+    class="section-spacing"
+    style="display:none;"
+>
+
+<div
+    style="
+        background:#EEF8F7;
+        border-radius:32px;
+        padding:24px 36px;
+        min-height:auto;
+        max-width:1100px;
+        margin:0 auto;
+    "
+>
+<div class="row g-4 align-items-start">
+
+<!-- Kolom Kiri: Timer
+<div class="col-lg-3 col-md-3">
+    <div
+        class="analytics-card text-center hover-card"
+        style="
+            background:white;
+            border-radius:20px;
+            padding:20px;
+            position:sticky;
+            top:80px;
+        "
+    >
+        <h6 class="text-muted mb-0">Soal</h6>
+        <h3
+            id="timerQuestionNum"
+            class="fw-bold mb-0"
+            style="color:#FF7444;"
+        >
+            1 / 30
+        </h3>
+    </div>
+</div> -->
+
+<!-- Kolom Kanan: Pertanyaan -->
+<div class="col-lg-8 col-md-10 mx-auto">
+
+    <div
+        style="
+            display:inline-block;
+            background:#DCE6FF;
+            color:#23468F;
+            padding:14px 26px;
+            border-radius:999px;
+            font-weight:600;
+            margin-bottom:40px;
+        "
+    >
+        Tes Gaya Belajar
+    </div>
+
+    <form
+        id="quizForm"
+        action="/result"
+        method="POST"
+    >
+    <div
+                style="
+                    width:100%;
+                    height:20px;
+                    background:#E5E5E5;
+                    border-radius:20px;
+                    overflow:hidden;
+                    margin-bottom:40px;
+                "
+            >
+
+                <div
+                    id="progressBar"
+                    style="
+                        height:100%;
+                        width:0%;
+                        background:#23468F;
+                        border-radius:20px;
+                        transition:.3s;
+                    "
+                ></div>
+            </div>
+
+        {% for q in questions %}
+
+        <div
+            class="question-slide"
+            {% if loop.index != 1 %}
+            style="display:none;"
+            {% endif %}
+        >
+
+            <div
+                style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    margin-bottom:10px;
+                "
+            >
+
+                <h4
+                    style="
+                        color:#23468F;
+                        margin:0;
+                    "
+                >
+                    Pertanyaan
+                    <span class="current-question">
+                        {{ loop.index }}
+                    </span>
+                    dari
+                    {{ questions|length }}
+                </h4>
+
+            </div>
+
+            <h2
+                style="
+                    color:#23468F;
+                    font-weight:700;
+                    font-size:1.25rem;
+                    line-height:1.4;
+                    margin-bottom:24px;
+                "
+            >
+                {{ q.question }}
+            </h2>
+
+            <div class="d-grid gap-4">
+
+                {% for option in q.options %}
+
+                <button
+                    type="button"
+                    class="figma-answer"
+                    data-question="{{ q.id }}"
+                    data-value="{{ option.fact }}"
+                >
+
+                    {{ option.text }}
+
+                </button>
+
+                {% endfor %}
+
+            </div>
+
+            <input
+                type="hidden"
+                name="{{ q.id }}"
+                id="answer{{ q.id }}"
+            >
+
+        </div>
+
+        {% endfor %}
+
+        <div
+            class="d-flex justify-content-start mt-4"
+        >
+
+            <div
+                class="d-flex
+                gap-2
+                mt-3"
+            >
+
+                <button
+                    type="button"
+                    id="prevBtn"
+                    class="figma-nav-btn"
+                    style="display:none;"
+                >
+                    ← Sebelumnya
+                </button>
+
+                <button
+                    type="button"
+                    id="resultBtn"
+                    class="figma-next-btn"
+                    style="display:none;"
+                >
+                    Lihat Hasil →
+                </button>
+
+            </div>
+
+        </div>
+
+</form>
+
+</div><!-- tutup col pertanyaan -->
+</div><!-- tutup row -->
+</div><!-- tutup wrapper -->
+
+<style>
+
+.question-slide{
+    max-width:900px;
+    margin:0 auto;
+}
+
+.figma-answer{
+
+    width:100%;
+    height:56px;
+    border:none;
+    border-radius:22px;
+    background:#FFFFFF;
+    color:#23468F;
+    font-size:1rem;
+    font-weight:600;
+
+    box-shadow:
+    0 4px 10px rgba(0,0,0,.08);
+
+    transition:.2s;
+}
+
+.figma-answer:hover{
+
+    background:#E9EEFF;
+}
+
+.figma-answer.selected{
+
+    background:#DCE6FF;
+    border:3px solid #23468F;
+}
+
+.question-slide{
+
+    min-height:260px;
+}
+
+.figma-nav-btn{
+
+    border:none;
+
+    background:white;
+
+    color:#23468F;
+
+    height:62px;
+
+    min-width:220px;
+
+    border-radius:20px;
+
+    font-size:1.3rem;
+
+    font-weight:700;
+
+    box-shadow:
+    0 4px 10px rgba(0,0,0,.08);
+}
+
+.figma-next-btn{
+
+    border:none;
+
+    background:#DCE6FF;
+
+    color:#23468F;
+
+    height:62px;
+
+    min-width:260px;
+
+    border-radius:20px;
+
+    font-size:1.3rem;
+
+    font-weight:700;
+
+    box-shadow:
+    0 5px 0 #23468F;
+}
+
+@media(max-width:992px){
+
+    .figma-next-btn,
+    .figma-nav-btn{
+
+        min-width:auto;
+        width:48%;
+    }
+}
+
+</style>
+
+</section>
+
+<script>
+
+const slides = document.querySelectorAll('.question-slide');
+
+let current = 0;
+
+const progressBar =
+document.getElementById('progressBar');
+
+function updateProgress(){
+
+    const progress =
+    ((current + 1) / slides.length) * 100;
+
+    const progressEl =
+    document.getElementById('progressBar');
+
+    if(progressEl){
+
+        progressEl.style.width =
+        progress + '%';
+
+    }
+
+    document
+    .querySelectorAll('.current-question')
+    .forEach(el => {
+
+        el.innerText = current + 1;
+
+    });
+
+    const numEl =
+    document.getElementById(
+        'timerQuestionNum'
+    );
+
+    if(numEl){
+
+        numEl.innerText =
+        (current + 1) +
+        ' / ' +
+        slides.length;
+
+    }
+
+}
+
+function updateButtons(){
+
+    const prevBtn =
+    document.getElementById('prevBtn');
+
+    const resultBtn =
+    document.getElementById('resultBtn');
+
+    if(current === 0){
+
+        prevBtn.style.display = 'none';
+
+    }else{
+
+        prevBtn.style.display = 'block';
+
+    }
+
+if(current === slides.length - 1){
+
+    const selectedButton =
+    slides[current].querySelector(
+        '.figma-answer.selected'
+    );
+
+    resultBtn.style.display =
+        selectedButton
+        ? 'block'
+        : 'none';
+
+}else{
+
+    resultBtn.style.display =
+    'none';
+
+}
+
+}
+
+updateProgress();
+updateButtons();
+
+document
+.querySelectorAll('.figma-answer')
+.forEach(btn => {
+
+    btn.addEventListener('click', function(){
+
+        const questionId =
+        this.dataset.question;
+
+        const value =
+        this.dataset.value;
+
+        const parent =
+        this.closest('.question-slide');
+
+        parent
+        .querySelectorAll('.figma-answer')
+        .forEach(b => {
+
+            b.classList.remove('selected');
+
+        });
+
+        this.classList.add('selected');
+
+        document.getElementById(
+            'answer' + questionId
+        ).value = value;
+
+        setTimeout(() => {
+
+            if(current === slides.length - 1){
+
+                this.classList.add('selected');
+
+                document.getElementById(
+                    'answer' + questionId
+                ).value = value;
+
+                document.getElementById(
+                    'resultBtn'
+                ).style.display = 'block';
+
+                updateButtons();
+
+                return;
+            }
+
+            slides[current].style.display =
+            'none';
+
+            current++;
+
+            slides[current].style.display =
+            'block';
+
+            updateProgress();
+
+            updateButtons();
+
+        }, 250);
+
+                });
+
+            });
+
+document
+.getElementById('prevBtn')
+.addEventListener('click', () => {
+
+    if(current > 0){
+
+        slides[current].style.display =
+        'none';
+
+        current--;
+
+        slides[current].style.display =
+        'block';
+
+        updateProgress();
+        updateButtons();
+
+    }
+
+});
+
+document
+.getElementById('resultBtn')
+.addEventListener('click', () => {
+
+    const form =
+    document.getElementById('quizForm');
+
+    const nameInput =
+    document.createElement('input');
+
+    nameInput.type = 'hidden';
+    nameInput.name = 'name';
+    nameInput.value =
+    sessionStorage.getItem('name');
+
+    form.appendChild(nameInput);
+
+    const classInput =
+    document.createElement('input');
+
+    classInput.type = 'hidden';
+    classInput.name = 'student_class';
+    classInput.value =
+    sessionStorage.getItem('student_class');
+
+    form.appendChild(classInput);
+
+    const genderInput =
+    document.createElement('input');
+
+    genderInput.type = 'hidden';
+    genderInput.name = 'gender';
+    genderInput.value =
+    sessionStorage.getItem('gender');
+
+    form.appendChild(genderInput);
+
+    submitQuiz();
+
+});
+
+let resultChart = null;
+
+async function submitQuiz() {
+
+    try {
+
+        const answers = {};
+
+        document
+            .querySelectorAll('input[type="hidden"]')
+            .forEach(input => {
+
+                answers[input.name] = input.value;
+
+            });
+
+        answers.name =
+            sessionStorage.getItem('name');
+
+        answers.student_class =
+            sessionStorage.getItem('student_class');
+
+        answers.gender =
+            sessionStorage.getItem('gender');
+
+        const response = await fetch(
+            '/submit_quiz',
+            {
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify(answers)
+            }
+        );
+
+        if (!response.ok) {
+
+            throw new Error(
+                `HTTP Error ${response.status}`
+            );
+
+        }
+
+        const data = await response.json();
+
+        // Simpan data global untuk PDF
+
+        window.resultPercentages =
+            data.percentages || {};
+
+        window.visualCount =
+            data.visual_count || 0;
+
+        window.auditoryCount =
+            data.auditory_count || 0;
+
+        window.kinestheticCount =
+            data.kinesthetic_count || 0;
+
+        window.ruleTrace =
+            data.rule_trace || '';
+
+        window.recommendationsData =
+            data.recommendations || {};
+
+        console.log('Quiz Result:', data);
+
+        showResult(data);
+
+    }
+    catch (error) {
+
+        console.error(
+            'Submit Quiz Error:',
+            error
+        );
+
+        alert(
+            'Terjadi kesalahan saat memproses hasil tes. Silakan coba lagi.'
+        );
+
+    }
+
+}
+
+function showResult(data){
+    console.log("FULL DATA:", data);
+
+    console.log(
+        "RECOMMENDATIONS:",
+        data.recommendations
+    );
+
+    document.getElementById(
+        'quiz-section'
+    ).style.display = 'none';
+
+    document.getElementById(
+        'result-section'
+    ).style.display = 'block';
+
+    document.getElementById(
+        'resultName'
+    ).innerText = data.name;
+
+    document.getElementById(
+        'resultClass'
+    ).innerText = data.student_class;
+
+    document.getElementById(
+        'resultGender'
+    ).innerText = data.gender;
+
+    const dominantMap = {
+
+        visual : "Visual",
+
+        auditory : "Auditori",
+
+        kinesthetic : "Kinestetik",
+
+        campuran : "Campuran"
+
+    };
+
+    const dominantIcons = {
+
+        visual: `
+            <div style="
+                width:70px;
+                height:70px;
+                border-radius:50%;
+                background:white;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:36px;
+                box-shadow:0 4px 12px rgba(0,0,0,.08);
+            ">
+                👁️
+            </div>
+        `,
+
+        auditory: `
+            <div style="
+                width:70px;
+                height:70px;
+                border-radius:50%;
+                background:white;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:36px;
+                box-shadow:0 4px 12px rgba(0,0,0,.08);
+            ">
+                🎧
+            </div>
+        `,
+
+        kinesthetic: `
+            <div style="
+                width:70px;
+                height:70px;
+                border-radius:50%;
+                background:white;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:36px;
+                box-shadow:0 4px 12px rgba(0,0,0,.08);
+            ">
+                🏃
+            </div>
+        `
+    };
+
+    const dominantIconEl =
+        document.getElementById(
+            'dominantIcon'
+        );
+
+    if(dominantIconEl){
+        dominantIconEl.innerHTML =
+            dominantIcons[data.dominant];
+    }
+
+    document.getElementById(
+        'dominantResult'
+    ).innerText =
+    dominantMap[data.dominant];
+
+    document.getElementById(
+        'resultExplanation'
+    ).innerHTML =
+    data.explanation.replace(/\n/g,"<br>");
+
+    const analysisSummary =
+    document.getElementById(
+        'analysisSummary'
+    );
+
+    if(analysisSummary){
+        analysisSummary.innerHTML =
+        data.analysis || "";
+    }
+
+    const analysisExtra =
+    document.getElementById(
+        'analysisExtra'
+    );
+
+    if(analysisExtra){
+        analysisExtra.innerHTML =
+        data.analysis_extra || "";
+    }
+
+    const resultCtx =
+    document.getElementById(
+        'resultChart'
+    );
+
+    if(!resultCtx){
+        return;
+    }
+
+    if(
+        window.resultChart &&
+        typeof window.resultChart.destroy === 'function'
+    ){
+
+        window.resultChart.destroy();
+
+    }
+
+    window.resultChart = new Chart(resultCtx, {
+
+        type: 'doughnut',
+
+        data: {
+
+            labels: [
+
+                'Visual',
+
+                'Auditori',
+
+                'Kinestetik'
+
+            ],
+
+            datasets: [{
+
+                data: [
+
+                    data.percentages.visual,
+
+                    data.percentages.auditory,
+
+                    data.percentages.kinesthetic
+
+                ],
+
+                backgroundColor: [
+
+                    '#5B84E5',
+
+                    '#D6C8F4',
+
+                    '#F3BF67'
+
+                ],
+
+                borderWidth: 0
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            cutout: '60%',
+
+            plugins: {
+
+                legend: {
+
+                    position: 'bottom'
+
+                }
+
+            }
+
+        }
+
+    });
+
+    const studentRec =
+    document.getElementById(
+        'studentRecommendations'
+    );
+
+    if(studentRec){
+        studentRec.innerHTML =
+        '<ul>' +
+        data.recommendations.student
+        .map(item => `<li>${item}</li>`)
+        .join('') +
+        '</ul>';
+    }
+    '<ul>' +
+    data.recommendations.student
+    .map(item => `<li>${item}</li>`)
+    .join('') +
+    '</ul>';
+
+    const teacherRec =
+    document.getElementById(
+        'teacherRecommendations'
+    );
+
+    if(teacherRec){
+        teacherRec.innerHTML =
+        '<ul>' +
+        data.recommendations.teacher
+        .map(item => `<li>${item}</li>`)
+        .join('') +
+        '</ul>';
+    }
+    '<ul>' +
+    data.recommendations.teacher
+    .map(item => `<li>${item}</li>`)
+    .join('') +
+    '</ul>';
+
+    const parentRec =
+    document.getElementById(
+        'parentRecommendations'
+    );
+
+    if(parentRec){
+        parentRec.innerHTML =
+        '<ul>' +
+        data.recommendations.parent
+        .map(item => `<li>${item}</li>`)
+        .join('') +
+        '</ul>';
+    }
+    '<ul>' +
+    data.recommendations.parent
+    .map(item => `<li>${item}</li>`)
+    .join('') +
+    '</ul>';
+
+    document.getElementById(
+        'visualCount'
+    ).innerText =
+    data.visual_count + " / 30";
+
+    document.getElementById(
+        'auditoryCount'
+    ).innerText =
+    data.auditory_count + " / 30";
+
+    document.getElementById(
+        'kinestheticCount'
+    ).innerText =
+    data.kinesthetic_count + " / 30";
+
+    document.getElementById(
+        'visualBar'
+    ).style.width =
+    (data.visual_count / 30 * 100) + "%";
+
+    document.getElementById(
+        'auditoryBar'
+    ).style.width =
+    (data.auditory_count / 30 * 100) + "%";
+
+    document.getElementById(
+        'kinestheticBar'
+    ).style.width =
+    (data.kinesthetic_count / 30 * 100) + "%";
+
+    document.getElementById(
+        'result-section'
+    ).scrollIntoView({
+        behavior:'smooth'
+    });
+
+}
+</script>

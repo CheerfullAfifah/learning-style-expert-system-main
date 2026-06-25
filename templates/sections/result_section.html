@@ -1,0 +1,1002 @@
+<section
+    id="result-section"
+    class="section-spacing"
+    style="display:none;"
+>
+
+<!-- ═══════ STYLES ═══════ -->
+<style>
+/* ── PAGE WRAP ── */
+.pr-wrap {
+    background: #FDF6EE;
+    padding: 24px 16px 32px;
+}
+
+/* ── PAGE HEADER ── */
+.pr-page-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+.pr-page-title {
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #7C6FCD, #4A90D9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0 0 6px;
+}
+.pr-page-sub {
+    font-size: 13.5px;
+    color: #8A8FAD;
+    margin: 0;
+}
+
+/* ── BASE CARD ── */
+.pr-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 2px 16px rgba(0,0,0,.06);
+    padding: 22px 24px;
+    margin-bottom: 10px;
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease;
+
+    position:relative;
+    overflow:hidden;
+}
+
+.pr-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:18px;
+    background:linear-gradient(
+        135deg,
+        rgba(255,255,255,.18),
+        transparent
+    );
+    opacity:0;
+    transition:.35s;
+    pointer-events:none;
+}
+
+.pr-card:hover::before{
+    opacity:1;
+}
+
+
+.pr-card:hover{
+    transform:translateY(-8px);
+    box-shadow:
+        0 20px 40px rgba(0,0,0,.10);
+}
+
+/* IDENTITAS */
+.pr-card-identity{
+    background:#FFFFFF;
+}
+
+/* IDENTITAS */
+.pr-card-identity:hover{
+    box-shadow:0 18px 35px rgba(74,144,217,.18);
+}
+
+/* DOMINAN */
+.pr-card-dominant{
+    background:#EAE3F7;
+}
+
+/* DOMINAN */
+.pr-card-dominant:hover{
+    box-shadow:0 18px 35px rgba(124,111,205,.25);
+}
+
+/* STATISTIK */
+.pr-card-statistic{
+    background:#DDE9F5;
+}
+
+/* STATISTIK */
+.pr-card-statistic:hover{
+    box-shadow:0 18px 35px rgba(91,132,229,.22);
+}
+
+/* ANALISIS */
+.pr-card-analysis{
+    background:#F6E9D9;
+}
+
+/* ANALISIS */
+.pr-card-analysis:hover{
+    box-shadow:0 18px 35px rgba(230,169,95,.22);
+}
+
+/* HASIL IDENTIFIKASI */
+.pr-card-score{
+    background:#F6F1E7;
+}
+
+/* HASIL IDENTIFIKASI */
+.pr-card-score:hover{
+    box-shadow:0 18px 35px rgba(245,166,35,.20);
+}
+
+/* REKOMENDASI */
+.pr-card-recommendation{
+    background:#F6F1E7;
+}
+
+
+/* REKOMENDASI */
+.pr-card-recommendation:hover{
+    box-shadow:0 18px 35px rgba(58,158,111,.22);
+}
+
+#resultChart{
+    width:100% !important;
+    height:100% !important;
+}
+
+/* ── IDENTITY CARD ── */
+.pr-identity {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+.pr-identity__icon {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg,#C9C3F5,#9B8EE8);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.pr-identity__content { flex: 1; }
+.pr-identity__title{
+    font-size:20px;
+    font-weight:800;
+    color:#4A3FA0;
+}
+.pr-identity__grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 0;
+}
+.pr-identity__label{
+    font-size:14px;
+    color:#8A8FAD;
+}
+.pr-identity__value{
+    font-size:20px;
+    font-weight:700;
+    color:#2D3142;
+}
+
+/* ── DOMINANT CARD ── */
+.pr-dominant{
+    background:linear-gradient(
+        135deg,
+        #EEEAFE,
+        #EAF0FF
+    );
+
+    border-radius:20px;
+
+    padding:20px 28px;
+
+    display:grid;
+
+    grid-template-columns:
+        260px
+        1fr;
+
+    gap:24px;
+
+    align-items:start;
+
+    margin-top:8px;
+}
+
+.pr-dominant:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 30px rgba(124,111,205,.15);
+}
+
+.pr-dominant__icon {
+    width: 70px;
+    height: 70px;
+    background:#fff;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 14px rgba(124,111,205,.15);
+}
+.pr-dominant__left{
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+}
+.pr-dominant__eyebrow {
+    font-size: 15px;
+    font-weight: 700;
+    color: #9990CC;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    margin-bottom: 8px;
+}
+.pr-dominant__name{
+    font-size:54px;
+    font-weight:800;
+    margin-top:12px;
+    color:#4A3FA0;
+    line-height:1.1;
+}
+
+
+.pr-dominant__desc{
+    font-size:16px;
+    line-height:1.7;
+    color:#4A4E6B;
+    margin:0;
+}
+
+.pr-dominant__desc p{
+    margin:0 0 12px;
+}
+
+.pr-dominant__desc p:last-child{
+    margin-bottom:0;
+}
+/* ── 2 COL ROW ── */
+.pr-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+    align-items:start;
+}
+
+.pr-three-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    align-items:stretch;
+}
+
+.pr-three-col > .pr-card{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+}
+
+.pr-equal-card{
+    min-height:320px;
+}
+
+#dominantCard{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+}
+
+#dominantCard .pr-stitle{
+    width:100%;
+    text-align:left;
+}
+
+#dominantCard hr{
+    width:100%;
+}
+
+#dominantCard .pr-explanation-text{
+    width:100%;
+    text-align:justify;
+}
+
+#dominantIcon{
+    margin:0 auto 16px auto;
+}
+
+#dominantResult{
+    text-align:center;
+    width:100%;
+}
+
+.pr-explanation-text{
+    font-size:15px;
+    line-height:1.8;
+    color:#4A4E6B;
+    text-align:justify;
+}
+
+/* ── SECTION TITLE ── */
+.pr-stitle {
+    font-size: 24px;
+    font-weight: 800;
+    color: #2D3142;
+    margin: 0 0 20px;
+    line-height: 1.2;
+}
+
+/* ── CHART CARD ── */
+.pr-chart-wrap {
+    position: relative;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+#resultChart { max-height: 200px; }
+
+/* ── ANALYSIS ── */
+.pr-analysis-box {
+    background: #F7F6FF;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-top: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+.pr-analysis-box__icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg,#C9C3F5,#9B8EE8);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+.pr-analysis-box__text {
+    font-size: 13px;
+    color: #5A5F80;
+    line-height: 1.75;
+}
+.pr-analysis-main {
+    font-size:14px;
+    color:#4A4E6B;
+    line-height:1.9;
+    margin-top:14px;
+    text-align:justify;
+}
+
+/* ── PROGRESS BARS ── */
+.pr-bar-item { margin-bottom: 14px; }
+.pr-bar-item:last-child { margin-bottom: 0; }
+.pr-bar-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2D3142;
+}
+.pr-bar-header__score {
+    font-weight: 700;
+    color: #7C7C9A;
+    font-size: 12.5px;
+}
+.pr-track {
+    height: 10px;
+    background: #F0F0F5;
+    border-radius: 100px;
+    overflow: hidden;
+}
+.pr-fill {
+    height: 100%;
+    border-radius: 100px;
+    transition: width 1s cubic-bezier(.4,0,.2,1);
+}
+.pr-fill--visual      { background: linear-gradient(90deg,#7C6FCD,#A99EE8); }
+.pr-fill--auditory    { background: linear-gradient(90deg,#F5A623,#F7C96A); }
+.pr-fill--kinesthetic { background: linear-gradient(90deg,#4AB0A0,#7DD4C8); }
+
+.pr-bar-note {
+    background: #EEF8FF;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #5A8FBD;
+    margin-top: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.6;
+}
+
+/* ── ACCORDION ── */
+.pr-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.pr-acc-item {
+    border-radius: 14px;
+    border: 1.5px solid #EAECF4;
+    background: #fff;
+    overflow: hidden;
+    transition: box-shadow .25s, transform .2s, border-color .25s;
+}
+.pr-acc-item:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,.08);
+    transform: translateY(-1px);
+    border-color: #C5BEF5;
+}
+.pr-acc-trigger {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 14px 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+.pr-acc-icon-wrap {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.pr-acc-icon-wrap--student { background: #EEF0FF; }
+.pr-acc-icon-wrap--teacher { background: #FFF3E8; }
+.pr-acc-icon-wrap--parent  { background: #E8F8F5; }
+
+.pr-acc-text { flex: 1; }
+.pr-acc-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2D3142;
+    display: block;
+    line-height: 1.3;
+}
+.pr-acc-sublabel {
+    font-size: 11.5px;
+    color: #A0A5BC;
+    display: block;
+    margin-top: 2px;
+}
+.pr-acc-chevron {
+    color: #B0B4CC;
+    transition: transform .3s cubic-bezier(.4,0,.2,1);
+    flex-shrink: 0;
+}
+.pr-acc-trigger.pr-open .pr-acc-chevron { transform: rotate(180deg); }
+
+.pr-acc-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .38s cubic-bezier(.4,0,.2,1);
+}
+.pr-acc-body.pr-open { max-height: 800px; }
+.pr-acc-inner {
+    padding: 4px 18px 18px 72px;
+    font-size: 13.5px;
+    color: #5A5F80;
+    line-height: 1.85;
+    border-top: 1px solid #F0F0F8;
+}
+.pr-acc-inner ul, .pr-acc-inner ol { list-style: none; padding: 0; margin: 8px 0 0; }
+.pr-acc-inner li { padding: 4px 0 4px 22px; position: relative; }
+.pr-acc-inner li::before {
+    content: '';
+    position: absolute; left: 0; top: 9px;
+    width: 13px; height: 13px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%237C6FCD' opacity='.15'/%3E%3Cpath d='M5 8l2 2 4-4' stroke='%237C6FCD' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E") no-repeat center/contain;
+}
+
+/* ── FOOTER BUTTONS ── */
+.pr-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    margin-bottom: 16px;
+}
+.pr-btn {
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all .2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.pr-btn--outline {
+    background: #fff;
+    border: 2px solid #D0D4E8;
+    color: #5A5F80;
+}
+.pr-btn--outline:hover { border-color: #7C6FCD; color: #7C6FCD; box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+.pr-btn--primary {
+    background: linear-gradient(90deg,#6A7FD4,#4A90D9);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(74,144,217,.35);
+}
+.pr-btn--primary:hover { box-shadow: 0 6px 20px rgba(74,144,217,.5); transform: translateY(-1px); }
+
+/* ── INGAT CARD ── */
+.pr-ingat {
+    background: linear-gradient(135deg,#FFFBE8,#FFF3C4);
+    border: 1.5px solid #F5E06A;
+    border-radius: 18px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+.pr-ingat__icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg,#FFD84D,#FFB300);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.pr-ingat__title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #7A6000;
+    margin: 0 0 4px;
+}
+.pr-ingat__text {
+    font-size: 13px;
+    color: #9A7A00;
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+    .pr-two-col { grid-template-columns: 1fr; }
+    .pr-identity__grid { grid-template-columns: 1fr; gap: 10px; }
+    .pr-dominant { grid-template-columns:1fr; }
+    .pr-dominant__name { font-size: 22px; }
+    .pr-actions { flex-direction: column; }
+    .pr-btn { justify-content: center; }
+    .pr-three-col{
+    grid-template-columns:1fr;
+}
+}
+</style>
+
+<div class="pr-wrap">
+
+    <!-- HEADER -->
+    <div class="pr-page-header">
+        <h2 class="pr-page-title">Hasil Gaya Belajar</h2>
+        <p class="pr-page-sub">Berikut hasil identifikasi gaya belajar kamu.</p>
+    </div>
+
+    <!-- IDENTITY -->
+    <div class="pr-card pr-card-identity">
+        <div class="pr-identity">
+            <div class="pr-identity__icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="pr-identity__content">
+                <div class="pr-identity__title">Identitas Siswa</div>
+                <div class="pr-identity__grid">
+                    <div class="pr-identity__item">
+                        <div class="pr-identity__label">Nama</div>
+                        <div class="pr-identity__value" id="resultName">—</div>
+                    </div>
+                    <div class="pr-identity__item">
+                        <div class="pr-identity__label">Kelas</div>
+                        <div class="pr-identity__value" id="resultClass">—</div>
+                    </div>
+                    <div class="pr-identity__item">
+                        <div class="pr-identity__label">Gender</div>
+                        <div class="pr-identity__value" id="resultGender">—</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOMINANT -->
+<div class="pr-three-col">
+
+    <!-- DOMINAN -->
+
+    <div
+        id="dominantCard"
+        class="pr-card pr-equal-card pr-card-dominant"
+    >
+
+    <div
+        id="dominantIcon"
+        class="pr-dominant__icon mb-3"
+    ></div>
+
+    <div class="pr-dominant__eyebrow">
+        Gaya Belajar Dominan
+    </div>
+
+    <div
+        id="dominantResult"
+        class="pr-dominant__name"
+    ></div>
+
+    <hr style="
+        margin:18px 0;
+        border:none;
+        border-top:1px solid #ECEAF8;
+    ">
+
+    <div class="pr-stitle">
+        Penjelasan Gaya Belajar
+    </div>
+
+    <div
+        id="resultExplanation"
+        class="pr-explanation-text"
+    ></div>
+
+</div>
+    
+<!-- HASIL IDENTIFIKASI -->
+
+    <div
+        class="pr-card pr-equal-card pr-card-score"
+        style="
+            min-height:100%;
+        "
+    >
+        <div class="pr-stitle">Hasil Identifikasi dari Jawaban Quiz</div>
+
+        <div class="pr-bar-item">
+            <div class="pr-bar-header">
+                <span style="display:flex;align-items:center;gap:8px;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+                    Auditori
+                </span>
+                <span class="pr-bar-header__score" id="auditoryCount"></span>
+            </div>
+            <div class="pr-track"><div id="auditoryBar" class="pr-fill pr-fill--auditory" style="width:0%"></div></div>
+        </div>
+
+        <div class="pr-bar-item">
+            <div class="pr-bar-header">
+                <span style="display:flex;align-items:center;gap:8px;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7C6FCD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    Visual
+                </span>
+                <span class="pr-bar-header__score" id="visualCount"></span>
+            </div>
+            <div class="pr-track"><div id="visualBar" class="pr-fill pr-fill--visual" style="width:0%"></div></div>
+        </div>
+
+        <div class="pr-bar-item">
+            <div class="pr-bar-header">
+                <span style="display:flex;align-items:center;gap:8px;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4AB0A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><path d="M12 8v8"/><path d="M8 14l4 4 4-4"/></svg>
+                    Kinestetik
+                </span>
+                <span class="pr-bar-header__score" id="kinestheticCount"></span>
+            </div>
+            <div class="pr-track"><div id="kinestheticBar" class="pr-fill pr-fill--kinesthetic" style="width:0%"></div></div>
+        </div>
+
+        <div class="pr-bar-note">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4A90D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Nilai menunjukkan jumlah kesesuaian jawaban kamu terhadap masing-masing gaya belajar.
+        </div>
+    </div>
+</div>
+
+<!-- STATISTIK + ANALISIS -->
+<div class="pr-two-col" style="margin-top:6px;">
+
+    <!-- Statistik -->
+     <div
+        class="pr-card pr-card-statistic"
+        style="
+            margin-bottom:0;
+            height:360px;
+        "
+    >
+
+        <div class="pr-stitle">
+            Statistik Gaya Belajar
+        </div>
+
+        <div class="d-flex flex-column align-items-center justify-content-center">
+
+            <div
+                style="
+                    width:260px;
+                    height:260px;
+                    max-width:100%;
+                    margin:auto;
+                    display:flex;
+                    justify-content:center;
+                    align-items:center;
+                "
+            >
+                <canvas id="resultChart"></canvas>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Analisis -->
+    <div
+        class="pr-card pr-card-analysis"
+        style="
+            margin-bottom:0;
+            height:360px;
+            overflow:auto;
+        "
+    >
+
+        <div class="pr-stitle">
+            Analisis Hasil
+        </div>
+
+        <div
+            id="analysisSummary"
+            class="pr-analysis-main"
+        ></div>
+
+        <div
+            id="analysisExtra"
+            class="pr-analysis-main"
+        ></div>
+
+    </div>
+
+</div>
+    
+    <!-- REKOMENDASI ACCORDION -->
+    <div
+        class="pr-card pr-card-recommendation"
+        style="
+        margin-top:16px;
+        width:100%;
+        "
+        >
+        <div class="pr-stitle">Rekomendasi</div>
+        <div class="pr-accordion">
+
+            <div class="pr-acc-item">
+                <button class="pr-acc-trigger pr-open" data-pr="studentRec">
+                    <span class="pr-acc-icon-wrap pr-acc-icon-wrap--student">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C6FCD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                    </span>
+                    <span class="pr-acc-text">
+                        <span class="pr-acc-label">Rekomendasi Untuk Kamu</span>
+                        <span class="pr-acc-sublabel">Tips belajar sesuai gaya belajar</span>
+                    </span>
+                    <span class="pr-acc-chevron">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </span>
+                </button>
+                <div class="pr-acc-body pr-open" id="studentRec">
+                    <div class="pr-acc-inner" id="studentRecommendations"></div>
+                </div>
+            </div>
+
+            <div class="pr-acc-item">
+                <button class="pr-acc-trigger" data-pr="teacherRec">
+                    <span class="pr-acc-icon-wrap pr-acc-icon-wrap--teacher">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8943A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </span>
+                    <span class="pr-acc-text">
+                        <span class="pr-acc-label">Rekomendasi Untuk Guru</span>
+                        <span class="pr-acc-sublabel">Cara guru dapat membantu proses belajar</span>
+                    </span>
+                    <span class="pr-acc-chevron">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </span>
+                </button>
+                <div class="pr-acc-body" id="teacherRec">
+                    <div class="pr-acc-inner" id="teacherRecommendations"></div>
+                </div>
+            </div>
+
+            <div class="pr-acc-item">
+                <button class="pr-acc-trigger" data-pr="parentRec">
+                    <span class="pr-acc-icon-wrap pr-acc-icon-wrap--parent">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3A9E6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </span>
+                    <span class="pr-acc-text">
+                        <span class="pr-acc-label">Rekomendasi Untuk Orangtua</span>
+                        <span class="pr-acc-sublabel">Peran orangtua dalam mendukung belajar</span>
+                    </span>
+                    <span class="pr-acc-chevron">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </span>
+                </button>
+                <div class="pr-acc-body" id="parentRec">
+                    <div class="pr-acc-inner" id="parentRecommendations"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="pr-actions">
+
+        <button
+            class="pr-btn pr-btn--outline"
+            onclick="location.reload()"
+        >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5">
+                <polyline points="1 4 1 10 7 10"/>
+                <path d="M3.51 15a9 9 0 1 0 .49-3.51"/>
+            </svg>
+            Ulangi Test
+        </button>
+
+        <button
+    class="pr-btn pr-btn--primary"
+    onclick="downloadServerPDF()"
+>
+    <svg width="15" height="15"
+         viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2.5">
+        <path d="M12 3v12"/>
+        <polyline points="7 11 12 16 17 11"/>
+        <path d="M5 21h14"/>
+    </svg>
+
+    Download PDF
+</button>
+
+    </div>
+
+
+    <!-- INGAT CARD -->
+    <div class="pr-ingat">
+        <div class="pr-ingat__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div>
+            <div class="pr-ingat__title">Ingat!</div>
+            <p class="pr-ingat__text">Setiap orang memiliki kombinasi gaya belajar yang unik. Hasil ini dapat menjadi panduan untuk menemukan cara belajar yang paling efektif untukmu.</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- ═══════ ACCORDION JS ═══════ -->
+<script>
+(function () {
+    document.querySelectorAll('.pr-acc-trigger').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var id     = btn.getAttribute('data-pr');
+            var body   = document.getElementById(id);
+            var isOpen = body.classList.contains('pr-open');
+
+            document.querySelectorAll('.pr-acc-body').forEach(function (b) { b.classList.remove('pr-open'); });
+            document.querySelectorAll('.pr-acc-trigger').forEach(function (b) { b.classList.remove('pr-open'); });
+
+            if (!isOpen) {
+                body.classList.add('pr-open');
+                btn.classList.add('pr-open');
+            }
+        });
+    });
+})();
+</script>
+
+<script>
+
+async function downloadServerPDF() {
+
+    if (!window.resultPercentages) {
+
+        alert(
+            "Hasil quiz belum tersedia."
+        );
+
+        return;
+    }
+
+
+
+    const payload = {
+
+        name:
+            document.getElementById(
+                'resultName'
+            ).innerText,
+
+        student_class:
+            document.getElementById(
+                'resultClass'
+            ).innerText,
+
+        gender:
+            document.getElementById(
+                'resultGender'
+            ).innerText,
+
+        dominant:
+            document.getElementById(
+                'dominantResult'
+            ).innerText,
+
+        percentages: window.resultPercentages,
+
+        visual_count:
+            window.visualCount,
+
+        auditory_count:
+            window.auditoryCount,
+
+        kinesthetic_count:
+            window.kinestheticCount,
+
+        explanation:
+            document.getElementById(
+                'resultExplanation'
+            ).innerText,
+
+        analysis_extra:
+            document.getElementById(
+                'analysisExtra'
+            ).innerText,
+
+        rule_trace:
+            window.ruleTrace,
+
+        recommendations:
+            window.recommendationsData
+
+    };
+
+    const response =
+        await fetch(
+            '/download-pdf',
+            {
+                method:'POST',
+
+                headers:{
+                    'Content-Type':
+                    'application/json'
+                },
+
+                body:
+                    JSON.stringify(payload)
+            }
+        );
+
+    const blob =
+        await response.blob();
+
+    const url =
+        window.URL.createObjectURL(
+            blob
+        );
+
+    const a =
+        document.createElement('a');
+
+    a.href = url;
+
+    a.download =
+        'hasil-gaya-belajar.pdf';
+
+    a.click();
+
+    window.URL.revokeObjectURL(
+        url
+    );
+}
+</script>
+</section>
+```
