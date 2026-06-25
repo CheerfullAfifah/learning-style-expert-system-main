@@ -47,17 +47,10 @@ print("DB_USER =", os.getenv("DB_USER"))
 print("DB_PASSWORD =", os.getenv("DB_PASSWORD"))
 print("DB_PORT =", os.getenv("DB_PORT"))
 
-# CONFIG DATABASE POSTGRESQL
-app.config['SQLALCHEMY_DATABASE_URI'] = (
+# CONFIG DATABASE NEON
 
-    f"postgresql://"
-
-    f"{os.getenv('DB_USER')}:"
-    f"{os.getenv('DB_PASSWORD')}@"
-    f"{os.getenv('DB_HOST')}:"
-    f"{os.getenv('DB_PORT')}/"
-    f"{os.getenv('DB_NAME')}"
-
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+    'DATABASE_URL'
 )
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -606,8 +599,15 @@ def about():
 # RUN APP
 if __name__ == '__main__':
 
+    import os
+
+if __name__ == "__main__":
     app.run(
-        host='0.0.0.0',
-        port=5000,
-        debug=True
+        host="0.0.0.0",
+        port=int(
+            os.environ.get(
+                "PORT",
+                5000
+            )
+        )
     )
